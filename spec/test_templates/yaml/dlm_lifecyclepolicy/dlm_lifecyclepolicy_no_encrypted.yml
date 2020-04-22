@@ -1,0 +1,37 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: >
+  Create a DLM LifecyclePolicy resource without the encrypted parameter.
+
+Resources:
+  DLMLifecyclePolicy:
+    Type: AWS::DLM::LifecyclePolicy
+    Properties:
+      Description: Lifecycle Policy using CloudFormation
+      State: ENABLED
+      ExecutionRoleArn:
+        Fn::Join:
+          - ''
+          - - !Sub arn:aws:iam::${AWS::AccountId}:role/
+            - AWSDataLifecycleManagerDefaultRole
+      PolicyDetails:
+        ResourceTypes:
+          - VOLUME
+        TargetTags:
+          - Key: costcenter
+            Value: '115'
+        Schedules:
+          - Name: Daily Snapshots
+            TagsToAdd:
+              - Key: type
+                Value: DailySnapshot
+            CreateRule:
+              Interval: 12
+              IntervalUnit: HOURS
+              Times:
+                - '13:00'
+            RetainRule:
+              Count: 1
+            CopyTags: true
+            CrossRegionCopyRules:
+              - TargetRegion: us-west-2
