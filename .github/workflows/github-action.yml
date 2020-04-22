@@ -1,0 +1,39 @@
+---
+name: github-action
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - .github/workflows/github-action.yml
+      - .github/tests/**
+      - action.yml
+      - Dockerfile.github-action
+
+jobs:
+  e2e:
+    name: E2E test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - name: Simple test
+        uses: pshelby/cfn_nag@master
+        with:
+          input_path: tests
+      - name: Test not showing suppression
+        uses: pshelby/cfn_nag@master
+        with:
+          input_path: tests
+          extra_args: ''
+      - name: Test with JSON output
+        uses: pshelby/cfn_nag@master
+        with:
+          input_path: tests
+          extra_args: -o json
+      - name: Test multiple extra args
+        uses: pshelby/cfn_nag@master
+        with:
+          input_path: tests
+          extra_args: -o json --template-pattern clean
