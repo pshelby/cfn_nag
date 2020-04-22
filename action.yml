@@ -13,4 +13,4 @@ inputs:
     default: '--print-suppression'
 runs:
   using: docker
-  image: Dockerfile.github-action
+  image: github-action/Dockerfile

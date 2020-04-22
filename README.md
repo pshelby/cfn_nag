@@ -118,7 +118,7 @@ In your GitHub Workflow file, create a step which uses the cfn_nag Action:
           input_path: tests
 ```
 
-More information about the [GitHub Action can be found here](github-action.md).
+More information about the [GitHub Action can be found here](github-action/README.md).
 
 ## Results Filtering
 
